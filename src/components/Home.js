@@ -1,9 +1,16 @@
 import React from 'react'
+import Notes from './Notes'
+
 
 const About = () => {
+
   return (
-    <div>
-      this is home
+    <div className="container my-4">
+
+
+      <Notes />
+
+
     </div>
   )
 }

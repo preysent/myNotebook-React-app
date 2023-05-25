@@ -7,19 +7,20 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-
-} from "react-router-dom";
-import NoteState from './context/NoteState';
+} from "react-router-dom"; // react router  
+import NoteState from './context/notes/NoteState';// using context api
+import Alert from './components/Alert';
 
 function App() {
   return (
     <NoteState>
       <Router>
         <Navbar />
+        <Alert info="this is an alert form app.js "/>
         <div className="container">
-          <h1>myNotebook App</h1>
 
           <Switch>
+
             <Route exact path="/">
               <Home />
             </Route>
