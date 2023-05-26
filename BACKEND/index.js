@@ -5,6 +5,7 @@ const port = 5000
 
 var cors = require('cors')// cors is use to 
 
+//middlewere - use to get request in browser
 app.use(cors())
 // here is the middlewere - use to send req in json
 app.use(express.json())

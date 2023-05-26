@@ -17,7 +17,7 @@ router.get('/featchAllNotes', findUserId, async (req, res) => {
 router.post('/addNote', findUserId,
   // validating the input
   [
-    body('title').isLength({ min: 4 }),
+    body('title').isLength({ min: 3 }),
     body('description').isLength({ min: 5 })
   ],
   async (req, res) => {

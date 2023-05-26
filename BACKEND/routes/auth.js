@@ -12,6 +12,7 @@ const JWT_STR = "doing my work"
 // importing middlewere to getuser detals 
 const findUserId = require('../middleWere/findUserId')
 
+let Success = false
 
 
 
@@ -26,9 +27,6 @@ router.post('/createUser', [
   // checking the result is the request have any error or not
   const result = validationResult(req);
   if (result.isEmpty()) {
-
-    // const user = await User(req.body);
-    // await user.save()
 
     // checking is the user alrady exist or not
     let user = await User.findOne({ email: req.body.email });//findOne function is use to object to find
@@ -57,7 +55,7 @@ router.post('/createUser', [
         }
       }
       const authToken = jwt.sign(data, JWT_STR)
-      return res.json({ authToken })
+      return res.json({Success:true, authToken })
 
     }
     catch (err) {
@@ -92,7 +90,8 @@ router.post('/login', [
         return res.status(400).json({ message: "use correct U input" })
       }
 
-      if (!await bcrypt.compare(req.body.password, user.password)) {
+      const passwordCompare =await bcrypt.compare(req.body.password, user.password)
+      if(!passwordCompare) {
         return res.status(400).json({ message: "use correct input" })
       }
 
@@ -102,16 +101,15 @@ router.post('/login', [
         }
       }
       const authToken = jwt.sign(data, JWT_STR)
-      return res.json({ authToken })
+      return res.json({Success:true, authToken })
     }
-    catch (err) {
-      console.log(err.message)
-      res.status(500).send("some error accour")
-
+    catch (error) {
+      console.error(error.message);
+      res.status(500).send("Internal Server Error");
     }
   }
 
-  res.json({ errors: result.array() });
+  return res.status(400).json({ errors: errors.array() });
 })
 
 

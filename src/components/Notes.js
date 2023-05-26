@@ -1,37 +1,48 @@
-import React, { useState ,useContext, useEffect, useRef } from 'react'
+import React, { useState, useContext, useEffect, useRef } from 'react'
 import noteContext from '../context/notes/NoteContext'
 import NoteItem from './NoteItem'
 import AddNote from './AddNote'
+import { useHistory } from "react-router-dom";
 
 
 
 const Notes = () => {
 
+    const history = useHistory()
+
+  
+
     useEffect(() => {
-        getAllNotes()
-        // eslint-disable-next-line
+         if(localStorage.getItem("authToken")) {            
+         getAllNotes()
+         }
+         else{
+         history.push("/Login")
+        }
+         // eslint-disable-next-line
     }, [])
 
     const updateNote = (note) => {
         ref.current.click()//use to click on the button using ref
-        seteNote({etitle:note.title,edescription:note.description,etag:note.tag,eId:note._id})
+        seteNote({ etitle: note.title, edescription: note.description, etag: note.tag, eId: note._id })
     }
 
     // here is a ref variable wich reffer to modal button
-    const ref = useRef('')
-    const { note, getAllNotes, Updatenote } = useContext(noteContext)    
-    const [enote, seteNote]=useState({etitle:"",edescription:"",etag:"",eId:""})
+    const ref = useRef(null)
+    const context = useContext(noteContext)
+    const {  Updatenote, getAllNotes,note, } = context
+    const [enote, seteNote] = useState({ etitle: "", edescription: "", etag: "", eId: "" })
 
 
 
-    const handleClick=(e)=>{
+    const handleClick = (e) => {
         // this function is use to prement the page reaload while click on submit button
         e.preventDefault()
         Updatenote(enote)
     }
 
-    const Onchange=(e)=>{
-        seteNote({...enote, [e.target.name] : e.target.value}) //  important syntex
+    const Onchange = (e) => {
+        seteNote({ ...enote, [e.target.name]: e.target.value }) //  important syntex
     }
 
     return (
@@ -64,29 +75,32 @@ const Notes = () => {
 
                                     </div>
                                     <div className="mb-3">
-                                        <label htmlFor="edescription" className="form-label">description</label>
-                                        <input type="text" className="form-control" id="edescription" name="edescription" onChange={Onchange} value={enote.edescription}/>
+                                        <label htmlFor="edescription" className="form-label">Description</label>
+                                        <input type="text" className="form-control" id="edescription" name="edescription" onChange={Onchange} value={enote.edescription} />
                                     </div>
                                     <div className="mb-3">
-                                        <label htmlFor="etag" className="form-label">description</label>
+                                        <label htmlFor="etag" className="form-label">Tag</label>
                                         <input type="text" className="form-control" id="etag" name="etag" onChange={Onchange} value={enote.etag} />
                                     </div>
 
-                                   </form>
+                                </form>
                                 {/*/ form-------------------------------------------- */}
-                                ...
+
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" className="btn btn-primary" onClick={handleClick} >Update Note</button>
+                                <button type="button" className="btn btn-primary" onClick={handleClick} data-bs-dismiss="modal" disabled={(enote.etitle.length < 3) || (enote.edescription.length < 5)} >Update Note</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div className='my-1 row'>
+                    <div className='container' >
+                        {note.length === 0 && "No Notes To Display"}
+                    </div>
                     {
-                        note.map((note) => {
+                       note.map((note) => {
                             return <NoteItem key={note._id} note={note} updateNote={updateNote} />
                         })
                     }

@@ -12,7 +12,7 @@ const NoteState = (props) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "auth_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ2OWQyNWRkYzhkNmUwNWQyNDNlODNhIn0sImlhdCI6MTY4NDY3ODQ2Nn0.u73Kq--vRkMt5rG1zq2f6ni7bSUvF3OSccqGKCwuE6k"
+        "auth_token": `${Token}`
       },
     });
 
@@ -25,17 +25,19 @@ const NoteState = (props) => {
   // Adding Note
   const Addnote = async ({ title, description, tag }) => {
 
-    await fetch(`${host}/api/notes/addNote`, {
+    const responce= await fetch(`${host}/api/notes/addNote`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "auth_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ2OWQyNWRkYzhkNmUwNWQyNDNlODNhIn0sImlhdCI6MTY4NDY3ODQ2Nn0.u73Kq--vRkMt5rG1zq2f6ni7bSUvF3OSccqGKCwuE6k"
+        "auth_token":  `${Token}`
       },
       body: JSON.stringify({ title, description, tag }),
     });
 
+    const res = await responce.json() 
 
-    await getAllNotes()
+    setNote(note.concat(res))
+
 
   }
 
@@ -47,14 +49,27 @@ const NoteState = (props) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "auth_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ2OWQyNWRkYzhkNmUwNWQyNDNlODNhIn0sImlhdCI6MTY4NDY3ODQ2Nn0.u73Kq--vRkMt5rG1zq2f6ni7bSUvF3OSccqGKCwuE6k"
+        "auth_token":  `${Token}`
       },
       body: JSON.stringify({ title: etitle, description: edescription, tag: etag }),
     });
 
 
+    const updatedNote = note.map((item) => {
+      if (item._id === eId) {
+        return {
+          ...item,
+          title: etitle,
+          description: edescription,
+          tag: etag,
+        };
+      }
+      return item;
+    });
+    
+    setNote(updatedNote);
+    
 
-    getAllNotes()
   }
 
   //Deleteing Note
@@ -64,18 +79,25 @@ const NoteState = (props) => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        "auth_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ2OWQyNWRkYzhkNmUwNWQyNDNlODNhIn0sImlhdCI6MTY4NDY3ODQ2Nn0.u73Kq--vRkMt5rG1zq2f6ni7bSUvF3OSccqGKCwuE6k"
+        "auth_token":  `${Token}`
       },
 
     });
 
+    const newNote = note.filter((itms)=>{
+      return itms._id!==id
+    })
 
-    await getAllNotes()
+    setNote(newNote)
+
   }
 
   const [note, setNote] = useState([])
+  
+  // i need to use Token state becouse it when we login or signup the we cannot accece the new auth token without reload the page
+  const[Token, setToken]=useState(localStorage.getItem('authToken'))
   return (
-    <noteContext.Provider value={{ note, Addnote, Deletenote, Updatenote, getAllNotes }}>
+    <noteContext.Provider value={{ note, Addnote, Deletenote, Updatenote, getAllNotes ,setToken }}>
       {props.children}
     </noteContext.Provider>
   )
