@@ -82,7 +82,6 @@ router.post('/login', [
   if (result.isEmpty()) {
 
     try {
-      // const {email, password}=req.body    
       // checking is the user alrady exist or not
       let user = await User.findOne({ email: req.body.email });//findOne function is use to object to find
 

@@ -1,8 +1,9 @@
-// // this file for databases
+// this file for databases
+require('dotenv').config()
 
 
 const mongoose = require('mongoose');
-const mongoURI =  "mongodb://127.0.0.1:27017/myDB"
+const mongoURI = process.env.DB_CONNECTION_STRING
 
   const connectToMongoose = async() =>{
     await mongoose.connect(mongoURI);

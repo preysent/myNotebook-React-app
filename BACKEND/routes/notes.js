@@ -73,7 +73,10 @@ router.put('/update/:id', findUserId,
 
 
 
-//ROUT 4: updating note using: put /api/notes/addNote  :
+
+  
+
+//ROUT 4: Deleting note using: put /api/notes/addNote  :
 router.delete('/delete/:id', findUserId,
   async (req, res) => {
 

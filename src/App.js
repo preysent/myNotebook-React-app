@@ -13,18 +13,37 @@ import Alert from './components/Alert';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 
+import { useState } from 'react';
+
 function App() {
+
+  const [alert,setAlert] = useState(null)
+
+  const showAlert = (type, head, message)=>{
+    setAlert({
+      type:type,
+      head:head,
+      message:message
+    })
+    setTimeout(() => {
+      setAlert(null)
+    }, 1500);
+  }
+
+  const style = {
+    height: "calc(100vh - 3rem)"
+  }
   return (
     <NoteState>
       <Router>
         <Navbar />
-        <Alert info="this is an alert form app.js " />
-        <div className="container">
+        <Alert alert={alert} />
+        <div className="container" style={style} >
 
           <Switch>
 
             <Route exact path="/">
-              <Home />
+              <Home showAlert={showAlert}/>
             </Route>
             <Route exact path="/about">
               <About />

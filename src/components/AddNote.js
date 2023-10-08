@@ -10,6 +10,7 @@ const AddNote = (props) => {
         // this function is use to prement the page reaload while click on submit button
         e.preventDefault()
         Addnote(note)
+        props.showAlert("success","Added","Note Added Successfully")
         setNote({title:"",description:"",tag:""})
     }
 

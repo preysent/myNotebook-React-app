@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 
 
 
-const Notes = () => {
+const Notes = (props) => {
 
     const history = useHistory()
 
@@ -19,6 +19,7 @@ const Notes = () => {
          else{
          history.push("/Login")
         }
+        props.showAlert("success","Loaded","page lodded successfully")
          // eslint-disable-next-line
     }, [])
 
@@ -33,12 +34,14 @@ const Notes = () => {
     const {  Updatenote, getAllNotes,note, } = context
     const [enote, seteNote] = useState({ etitle: "", edescription: "", etag: "", eId: "" })
 
+    console.log(note);
 
 
     const handleClick = (e) => {
         // this function is use to prement the page reaload while click on submit button
         e.preventDefault()
         Updatenote(enote)
+        props.showAlert("success","Conpleated","Note Succefully updated")
     }
 
     const Onchange = (e) => {
@@ -47,7 +50,7 @@ const Notes = () => {
 
     return (
         <>
-            <AddNote />
+            <AddNote showAlert={props.showAlert} />
             <div className='my-4'>
                 <h4>your Note</h4>
 
@@ -96,14 +99,17 @@ const Notes = () => {
                 </div>
 
                 <div className='my-1 row'>
-                    <div className='container' >
-                        {note.length === 0 && "No Notes To Display"}
+                {
+                    (!note.length)
+                    ?<div className='container' >
+                        No Notes To Display
                     </div>
-                    {
-                       note.map((note) => {
-                            return <NoteItem key={note._id} note={note} updateNote={updateNote} />
-                        })
-                    }
+                    
+                    : note.map((note) => {
+                            return <NoteItem key={note._id} note={note} updateNote={updateNote} showAlert={props.showAlert}/>
+                    })
+                }
+
                 </div>
             </div>
         </>

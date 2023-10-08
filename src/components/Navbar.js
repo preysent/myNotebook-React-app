@@ -1,5 +1,7 @@
-import React, {  } from 'react'
-import { Link, useLocation } from "react-router-dom";
+import React, { useContext } from 'react'
+import { Link, useLocation, useHistory } from "react-router-dom";
+import noteContext from '../context/notes/NoteContext';
+
 
 
 const Navbar = () => {
@@ -7,10 +9,15 @@ const Navbar = () => {
     //here using location hook from react router to find the location of currant route
     let location = useLocation();
 
-    // use effect will run after location mount's
-    // useEffect(() => {
-    //     console.log(location.pathname)
-    // }, [location]);
+
+    const {setToken}= useContext(noteContext)
+    const history = useHistory()
+
+    const handleLogout = ()=>{
+        setToken(null)
+        localStorage.clear()
+        history.push("/login")
+    }
 
 
     return (
@@ -32,10 +39,13 @@ const Navbar = () => {
                     </ul>
 
 
-                    <form className="d-flex" role="search">
+                   { (!localStorage.getItem("authToken"))?
+                    (<form className="d-flex" >
                         <Link to="/Login" className="btn btn-primary mx-1" role="button" aria-disabled="true">Login</Link>
                         <Link to="/SignUp" className="btn btn-primary mx-1" role="button" aria-disabled="true">SignUp</Link>
                     </form>
+                    ):(
+                    <button className="btn btn-primary mx-1" role="button" aria-disabled="true" onClick={handleLogout}>Logout</button>)}
                 </div>
             </div>
         </nav>

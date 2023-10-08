@@ -15,11 +15,11 @@ app.use(express.json())
 
 
 // connecting to my db
-connectToMongose().catch(err=>console.log(err));
+connectToMongose().catch(err => console.log(err));
 
 //avalible routes == it use theat endpoing to response
-app.use('/api/auth',require("./routes/auth"))
-app.use('/api/notes',require("./routes/notes"))
+app.use('/api/auth', require("./routes/auth"))
+app.use('/api/notes', require("./routes/notes"))
 
 
 

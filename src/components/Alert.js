@@ -1,13 +1,20 @@
 import React from 'react'
 
-const Alert = (props) => {
-    return (
-        <div>
-            <div className="alert alert-info" role="alert">
-                {props.info}
-            </div>
-        </div>
-    )
+let css = {
+  // height:"3rem",
 }
 
-export default Alert
+export default function Alert(props) {
+
+
+  // the Syntax props.alert && html element is use becouse if props.alert is null then it don't return any value
+  return <div style={{height:'45px'}}>
+
+   {props.alert && (
+        <div className={`alert alert-${props.alert.type}`} role="alert" style={ css }>
+        <strong>{props.alert.head}</strong> {props.alert.message}
+        </div>   
+  )}
+
+  </div>
+}
