@@ -1,6 +1,6 @@
 import { useState } from "react";
 import noteContext from "./NoteContext";
-const host = "http://localhost:5000"
+const host = "https://my-notebook-be-97vx.onrender.com"
 
 const NoteState = (props) => {
 

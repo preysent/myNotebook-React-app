@@ -19,7 +19,7 @@ const Login = () => {
     const onSubmit = async (e) => {
         e.preventDefault()//prevent reaload
         // post request to login
-        const responce = await fetch(`http://localhost:5000/api/auth/createUser`, {
+        const responce = await fetch(`https://my-notebook-be-97vx.onrender.com/api/auth/createUser`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({ name: credentials.name, email: credentials.email, password: credentials.password }),

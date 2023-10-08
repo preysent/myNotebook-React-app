@@ -17,7 +17,7 @@ const Login = () => {
         e.preventDefault()//prevent reaload
 
             // post request to login
-            const responce = await fetch(`http://localhost:5000/api/auth/login`, {
+            const responce = await fetch(`https://my-notebook-be-97vx.onrender.com/api/auth/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",                    
