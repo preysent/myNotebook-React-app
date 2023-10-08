@@ -45,7 +45,7 @@ const Navbar = () => {
                         <Link to="/SignUp" className="btn btn-primary mx-1" role="button" aria-disabled="true">SignUp</Link>
                     </form>
                     ):(
-                    <button className="btn btn-primary mx-1" role="button" aria-disabled="true" onClick={handleLogout}>Logout</button>)}
+                    <button className="btn btn-primary mx-1" aria-disabled="true" onClick={handleLogout}>Logout</button>)}
                 </div>
             </div>
         </nav>
